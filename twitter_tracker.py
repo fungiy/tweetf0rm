@@ -324,6 +324,8 @@ if __name__=="__main__":
     with open(os.path.abspath(args.config), 'r') as config_f:
         config = json.load(config_f)
 
+        print(config)
+
         try:
             if (args.command == 'search'):
                 collect_tweets_by_search_terms(args.command_config, output_folder, config)
