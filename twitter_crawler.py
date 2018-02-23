@@ -16,7 +16,6 @@ import re
 
 import twython
 import util
-import codecs
 
 from exceptions import MissingArgs
 
@@ -106,7 +105,7 @@ class TwitterCrawler(twython.Twython):
                     return
 
                 if (result):
-                    with codecs.open(filename, 'a+', newline='', encoding='utf-8') as f:
+                    with open(filename, 'a+', newline='', encoding='utf-8') as f:
                         f.write('%s\n'%json.dumps(result))
 
                 time.sleep(1)
@@ -153,7 +152,7 @@ class TwitterCrawler(twython.Twython):
 
                 if (result):
 
-                    with codecs.open(filename, 'a+', newline='', encoding='utf-8') as f:
+                    with open(filename, 'a+', newline='', encoding='utf-8') as f:
                         f.write('%s\n'%json.dumps(result))
 
                         retry_cnt = 0
@@ -188,7 +187,7 @@ class TwitterCrawler(twython.Twython):
 
         filename = os.path.abspath('%s/%s'%(day_output_folder, user_id))
 
-        with codecs.open(filename, 'w') as f:
+        with open(filename, 'w') as f:
             pass
 
         cursor = -1
@@ -216,7 +215,7 @@ class TwitterCrawler(twython.Twython):
 
                     cursor = result['next_cursor'] 
 
-                    with codecs.open(filename, 'a+', newline='', encoding='utf-8') as f:
+                    with open(filename, 'a+', newline='', encoding='utf-8') as f:
                         f.write('%s\n'%json.dumps(result))
 
 
@@ -259,7 +258,7 @@ class TwitterCrawler(twython.Twython):
 
         filename = os.path.abspath('%s/%s'%(day_output_folder, tweet_id))
 
-        with codecs.open(filename, 'w') as f:
+        with open(filename, 'w') as f:
             pass
         retry_cnt = MAX_RETRY_CNT
         while retry_cnt > 0:
@@ -270,7 +269,7 @@ class TwitterCrawler(twython.Twython):
                     retweet_ids.add(tweet['id'])
 
                 if(len(result) > 0):
-                    with codecs.open(filename, 'a+', newline='', encoding='utf-8') as f:
+                    with open(filename, 'a+', newline='', encoding='utf-8') as f:
 
                         f.write('%s\n'%json.dumps(result))
 
@@ -319,7 +318,7 @@ class TwitterCrawler(twython.Twython):
 
                 prev_max_id = current_max_id # if no new tweets are found, the prev_max_id will be the same as current_max_id
 
-                with codecs.open(filename, 'a+', newline='', encoding='utf-8') as f:
+                with open(filename, 'a+', newline='', encoding='utf-8') as f:
                     for tweet in tweets:
                         f.write('%s\n'%json.dumps(tweet))
                         if current_max_id == 0 or current_max_id > int(tweet['id']):
@@ -388,13 +387,11 @@ class TwitterCrawler(twython.Twython):
                     tweets = self.search(q=query, geocode=geo, since_id=since_id, lang=lang, tweet_mode='extended', result_type='recent', count=100)
 
 
-
                 prev_max_id = current_max_id # if no new tweets are found, the prev_max_id will be the same as current_max_id
 
-                with codecs.open(filename, 'a+', newline='', encoding='utf-8') as f:
+                with open(filename, 'a+', newline='', encoding='utf-8') as f:
                     for tweet in tweets['statuses']:
-                        logger.info(tweet['full_text'])
-                        f.write('%s\n'%json.dumps(tweet, ensure_ascii=False))
+                        f.write('%s\n'%json.dumps(tweet))
                         if current_max_id == 0 or current_max_id > int(tweet['id']):
                             current_max_id = int(tweet['id'])
                         if current_since_id == 0 or current_since_id < int(tweet['id']):
@@ -455,7 +452,7 @@ class TwitterCrawler(twython.Twython):
             if (cnt > 0):
                 for tweet in tweets:
                     filename = os.path.abspath('%s/%s.json'%(self.output_folder, now.strftime('%Y%m%d')))
-                    with codecs.open(filename, 'a+', newline='', encoding='utf-8') as f:
+                    with open(filename, 'a+', newline='', encoding='utf-8') as f:
                         f.write('%s\n'%json.dumps(tweet))
 
 
